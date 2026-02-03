@@ -67,7 +67,8 @@
       index: 2
     });
     
-    // constructor for graphics layer lab 2 part 3
+    // lab 2 part 3
+    // constructor for graphics layer 
     const graphicsLayer = new GraphicsLayer();  
     map.add(graphicsLayer);
     
@@ -88,7 +89,7 @@
       }  
     };
     // define popup properties
-    const PopupTemplate = {
+    const PtpopupTemplate = {
     title: "{Name}",
     content: "{Description}"
     };
@@ -101,7 +102,7 @@
     geometry: point,  
     symbol: simpleMarkerSymbol,
     attributes: ptAttributes,
-    popupTemplate: PopupTemplate  
+    popupTemplate: PtpopupTemplate  
     });
     //add pt to graphics layer
     graphicsLayer.add(pointGraphic);
@@ -129,7 +130,6 @@
     // add polyline to graphics layer
     graphicsLayer.add(polylineGraphic);
 
-
     // polygon geometry
     const polygon = {
       type: "polygon",
@@ -142,6 +142,10 @@
       ]
     };
     // polygon popup properties
+    const polyPopupTemplate = {
+      title: "{Name}",
+      content: "{Description}"
+    };
     const polyAttributes = {
     Name: "Brackenridge Field Laboratory",
     Description: "An urban field station for ecology research"
@@ -160,35 +164,64 @@
       geometry: polygon,
       symbol: simpleFillSymbol,
       attributes: polyAttributes,
-      popupTemplate: PopupTemplate 
+      popupTemplate: polyPopupTemplate 
     });
     // add polygon to graphics layer
     graphicsLayer.add(polygonGraphic);
 
     // lab 2 part 4:
-    //const usaeduLayer = new FeatureLayer({
-      //url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer"
-    //});
-    //map.add(usaeduLayer);
-
     // Define a pop-up for usaeduLayer
     const popupEduusa = {
       "title": "College Information",
       "content": "<b>Name:</b> {INSTNM}<br> <b>Address:</b> {ADDR} - {CITY} , {STABBR}  {ZIP} <br> <b>Enrollment:</b> {INSTSIZE} <br> <a href={WEBADDR}>Institution Website</a>"
     };
-
     //adding the Const for the feature layer
     const usaeduLayer = new FeatureLayer({
       url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
-
     //adding the popup here
-      outFields: ["ADDR","TOT_ENROLL","WEBADDR"],
       popupTemplate: popupEduusa
     });
-
     //adding the feature layer to the map
     map.add(usaeduLayer);
 
+    // lab 2 part 5, 6:
+    const airportRenderer = {
+      "type": "simple",
+      "symbol": {
+        "type": "picture-marker",
+        "url": "https://kmlitchen.github.io/576_agol/helipad-black-icon.png",
+        "width": "18px",
+        "height": "18px"
+      }
+    };
+    //const to make the airport labels
+  const airportLabels = {
+    symbol: {
+      type: "text",
+      color: "#FFFFFF",
+      haloColor: "#5E8D74",
+      haloSize: "2px",
+      font: {
+        size: "12px",
+        family: "Noto Sans",
+        style: "italic",
+        weight: "normal"
+        }
+      },
+    labelPlacement: "above-center",
+    labelExpressionInfo: {
+        expression: "$feature.Fac_Name"
+      }
+    };
+    const airportLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/576_US_Airports/FeatureServer",
+      renderer: airportRenderer,
+      definitionExpression: "Fac_Type = 'AIRPORT'", //adding sql to filter for airports
+      labelingInfo: [airportLabels] //adding the labels
+    });
+    
+    map.add(airportLayer);
+    
   });  
   </script>
 

@@ -1,2 +1,2 @@
-# 576_agol
-GEOG_576 Lab 2
+# 576_agolrest
+GEOG_576 Lab 3

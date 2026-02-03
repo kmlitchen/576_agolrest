@@ -36,13 +36,14 @@
     const view = new MapView({
       map: map,
       center: [-97.7335, 30.2850], // longitude, latitude **(updated to my alma mater - UT Autsin)
-      scale: 9200, // **(updated from zoom to scale; set to encompass all of main campus)
+      scale: 25000, // **(updated from zoom to scale; set to encompass all of main campus)
       container: "viewDiv" // div element
     });
 
     const basemapGallery = new BasemapGallery({ //default Basemap Gallery Widget
       view: view,
     });
+
     const expand = new Expand({ //put basemap gallery widget in an expandable tab
         view: view,
         content: basemapGallery 
@@ -67,11 +68,12 @@
     // constructor for graphics layer lab 2 part 3
     const graphicsLayer = new GraphicsLayer();  
     map.add(graphicsLayer);
+    
     // geometry of the pt
     const point = { //Create a point  
     type: "point",  
-    longitude: -97.7359,    //long lat of JGB
-    latitude: 30.2859
+    longitude: -97.7357,    //long lat of JGB
+    latitude: 30.2858
     };
     // marker style
     const simpleMarkerSymbol = {  
@@ -84,23 +86,83 @@
       }  
     };
     // define popup properties
-    const popupTemplate = {
+    const PopupTemplate = {
     title: "{Name}",
     content: "{Description}"
-    }
-    const attributes = {
+    };
+    const ptAttributes = {
     Name: "Jackson School of Geosciences",
     Description: "Home of the UT - Austin geology department"
-    }
+    };
     // create the pt
     const pointGraphic = new Graphic({  
     geometry: point,  
     symbol: simpleMarkerSymbol,
-    attributes: attributes,
-    popupTemplate: popupTemplate  
+    attributes: ptAttributes,
+    popupTemplate: PopupTemplate  
     });
     //add pt to graphics layer
     graphicsLayer.add(pointGraphic);
+
+    // polyline geometry
+    const polyline = {
+      type: "polyline",
+      paths: [
+        [-97.7782, 30.2843],
+        [-97.7357, 30.2858]
+      ]
+    };
+    // polyline marker style
+    const simpleLineSymbol = {
+      type: "simple-line",
+      color: "brown",
+      width: 1,
+      style: "dot"
+    };
+     // polyline graphic
+    const polylineGraphic = new Graphic({
+      geometry: polyline,
+      symbol: simpleLineSymbol
+    });
+    // add polyline to graphics layer
+    graphicsLayer.add(polylineGraphic);
+
+
+    // polygon geometry
+    const polygon = {
+      type: "polygon",
+      rings: [
+        [-97.775569, 30.280904],
+        [-97.780298, 30.287658],
+        [-97.783298, 30.284200],
+        [-97.777724, 30.279288],
+        [-97.775569, 30.280904]
+      ]
+    };
+    // polygon popup properties
+    const polyAttributes = {
+    Name: "Brackenridge Field Laboratory",
+    Description: "An urban field station for ecology research"
+    };
+    // polygon fill style
+    const simpleFillSymbol = {
+      type: "simple-fill",
+      color: [204, 85, 0, 0.5],
+      style: "solid",
+      outline: {
+        width: 0
+      }
+    };
+    // polygon graphic
+    const polygonGraphic = new Graphic({
+      geometry: polygon,
+      symbol: simpleFillSymbol,
+      attributes: polyAttributes,
+      popupTemplate: PopupTemplate 
+    });
+    // add polygon to graphics layer
+    graphicsLayer.add(polygonGraphic);
+
   });  
   </script>
 
